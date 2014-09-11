@@ -12,6 +12,12 @@ module.exports = require('waterlock').actions.user({
     'new': function(req, res) {
         res.view();
     },
+    reset: function(req, res) {
+        res.view();
+    },
+    password: function(req, res) {
+        res.view();
+    },
     // route used to [post] verify fields from form before submit
     validation: function(req, res) {
         var params = req.params.all();
@@ -54,21 +60,26 @@ module.exports = require('waterlock').actions.user({
                     return res.redirect('/user/new');
                 }
                 req.session.user = user;
-
-                user.online = true;
                 req.session.authenticated = true;
                 waterlock.engine.attachAuthToUser(auth, user, function (err) {
                     if (err) {
                         waterlock.logger.debug(err);
                         res.redirect('user/new');
                     }
+                    user.online = true;
+                    user.save(function (err, user) {
+                        if (err) {
+                            sailsLog('err', err);
+                            return next(err);
+                        }
 
-                    user.action = " signed-up and logged-in.";
+                        user.action = " signed-up and logged-in.";
 
-                    User.publishCreate(user);
+                        User.publishCreate(user);
 
-                    waterlock.logger.debug('user login success');
-                    return res.redirect('/user/show/'+user.id);
+                        waterlock.logger.debug('user login success');
+                        return res.redirect('/user/show/'+user.id);
+                    });
                 });
             });
     },
