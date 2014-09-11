@@ -1,5 +1,4 @@
-{
-  "name": "GAOWL",
+"name": "GAOWL",
   "private": true,
   "version": "0.0.10",
   "description": "A demo of gulp, sails v10.4, waterlock",
@@ -13,6 +12,7 @@
     "type": "git",
     "url": "git://github.com/Karnith/GAOWL.git"
   },
+ {
   "dependencies": {
     "bcryptjs": "^2.0.2",
     "connect-mongo": "^0.4.1",
